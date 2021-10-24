@@ -71,7 +71,7 @@ $route->get('/api/view/{id}', function($id){
 	
 });
 
-$route->get('/api/update/{id}/{name}/{skill}/{email}',
+$route->update('/api/update/{id}/{name}/{skill}/{email}',
 	function($id, $name, $skill, $email){
 
 	$engine = new model();	
@@ -109,7 +109,7 @@ $route->get('/api/update/{id}/{name}/{skill}/{email}',
 	}
 });
 
-$route->get('/api/delete/{id}', function($id){
+$route->delete('/api/delete/{id}', function($id){
 
 	$engine = new model();	
 	$authID = $engine->authId('team', $id);
