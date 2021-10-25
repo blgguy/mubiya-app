@@ -119,33 +119,74 @@ class model extends DB
                 }
             }
     }
-/*
-    public function update($table, $fields, $id)
-	{
-		$sql = "";
-		$codition = "";
-		foreach ($id as $key => $value) {
-			$codition .= $key. "='".$value."' , ";
-		}
-		$codition = substr($codition, 0, -5);
-		foreach ($fields as $key => $value) {
-			// Update table SET name='' , skill ='' , email ='' where id = ''	
-			$sql .= $key ."='".$value."', ";	
-		}
 
-		$sql = substr($sql, 0, -2);
-		$sql = "UPDATE ".$table." SET ".$codition."' WHERE ".$sql;
-		//echo $sql;
-		$query 	= 	$this->Jigo->query($sql);
-
-        if ($query) {
-            return true;
+    public function Shiga($email)
+    {
+        $sql =  "SELECT * FROM `users` WHERE `email` = '$email'";
+        $array = array();
+        $query = $this->Jigo->query($sql);
+         if($query){
+            while ($row = $query->fetch_array()) {
+                $array[] = $row;
+            }
+            return $array;
+        }else{
+            return false;
         }
     }
-    
-    
+    public function loginn($email, $pass)
+    {
+        $email 	= sentize($email);
+        $pass 	= sentize($pass);
+            
+        if(empty($email) || empty($pass)) {
+            $msgG = array(
+                'status' 	=> 	getHttpMsg(404),
+                'message'	=>	'UserId or Password can not be empty!'
+            );
+        } else {
+            $logIn = $this->Shiga($email);
+            
+            if($logIn){
+                foreach($logIn as $row) { 
+                    $dbPassword = $row['password'];
+                }
+                //$verifyPass = password_verify($pass, $dbPassword);
+                if (md5($pass) != $dbPassword) {
+                    $msgG = array(
+                        'status' 	=> 	getHttpMsg(404),
+                        'message'	=>	'Password is wrong!'
+                    );
+                //$message = '<span style="color: red;">Password is wrong!</span><br>';
+                }else{  
+                // logs 	
+                $ddd = date("d m Y | h:i a") ;	   
+                $logss = array(  	
+                    'ip_address'   	=>  $_SERVER['REMOTE_ADDR'],
+                    'email'     	=>  $email, 
+                    'datee'         =>  $ddd,  
+                );
+                
+                $this->create('logs', $logss);
+                $msgG = array(
+                    'status' 	=> 	getHttpMsg(202),
+                    'message'	=>	'Login Successfully'
+                );
+                // $_SESSION['khkgersdsgfts_65785678688'] = $row;
+                // header("location: ./home.php");
+                }
+            }else{
+                $msgG = array(
+                    'status' 	=> 	getHttpMsg(404),
+                    'message'	=>	"Account doesn't exist!"
+                );
+                //$message = "<span style='color: red;'>Account doesn't exist! </span><br>";
+                //return $message;
+            }
+        }
 
-*/
+        return json_encode($msgG);
+    }
 
 }
 

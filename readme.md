@@ -6,10 +6,16 @@
 * Create a new User
 /api/create/{name}/{email}/{password}
 
-
 # get Request
 * View All Users that registered
-/get('/api/view/
+/api/view/
 
 * View Users by ID.
-/get('/api/view/{id}
+/api/view/{id}
+
+* Login User
+/api/auth/{email}/{password}
+
+
+* All Users logs details
+/api/users/logs/{email}/{password}
