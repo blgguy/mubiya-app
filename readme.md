@@ -17,7 +17,8 @@ http://mukoya.educationhost.cloud/view/
 http://mukoya.educationhost.cloud/view/index.php?id={1}
 
 * Login User
-/api/auth/{email}/{password}
+
+http://mukoya.educationhost.cloud/auth/index.php?email={sample@gmail.com}&password={1234}
 
 
 * All Users logs details
